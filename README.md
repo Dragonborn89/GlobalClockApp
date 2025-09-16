@@ -3,7 +3,8 @@
 **World Clock display app for distributed teams**
 
 GlobalClockApp is a lightweight desktop utility designed to help globally distributed teams stay in sync. Whether you're scheduling meetings across time zones or tracking colleagues' working hours, this app provides an at-a-glance overview of multiple locations worldwide.
-<img width="788" height="620" alt="image" src="https://github.com/user-attachments/assets/e00d393f-204a-456b-a48c-2611e757ad6e" />
+<img width="780" height="685" alt="image" src="https://github.com/user-attachments/assets/e6d4c202-16b7-4039-bce5-25e7935330f2" />
+
 
 ---
 
