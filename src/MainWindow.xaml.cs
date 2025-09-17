@@ -110,8 +110,14 @@ namespace GlobalClockApp
         {
             if (sender is ClockControl clockControl)
             {
-                ClockContainer.Children.Remove(clockControl);
-                //RearrangeClocks();
+                var viewbox = ClockContainer.Children
+                    .OfType<Viewbox>()
+                    .FirstOrDefault(v => v.Child == clockControl);
+
+                if (viewbox != null)
+                {
+                    ClockContainer.Children.Remove(viewbox);
+                }
             }
         }
 
@@ -119,12 +125,18 @@ namespace GlobalClockApp
         {
             if (sender is ClockControl clockControl)
             {
-                int index = ClockContainer.Children.IndexOf(clockControl);
-                if (index > 0)
+                var viewbox = ClockContainer.Children
+                    .OfType<Viewbox>()
+                    .FirstOrDefault(v => v.Child == clockControl);
+
+                if (viewbox != null)
                 {
-                    ClockContainer.Children.RemoveAt(index);
-                    ClockContainer.Children.Insert(index - 1, clockControl);
-                    //RearrangeClocks();
+                    int index = ClockContainer.Children.IndexOf(viewbox);
+                    if (index > 0)
+                    {
+                        ClockContainer.Children.RemoveAt(index);
+                        ClockContainer.Children.Insert(index - 1, viewbox);
+                    }
                 }
             }
         }
@@ -133,17 +145,24 @@ namespace GlobalClockApp
         {
             if (sender is ClockControl clockControl)
             {
-                int index = ClockContainer.Children.IndexOf(clockControl);
-                if (index < ClockContainer.Children.Count - 1)
+                var viewbox = ClockContainer.Children
+                    .OfType<Viewbox>()
+                    .FirstOrDefault(v => v.Child == clockControl);
+
+                if (viewbox != null)
                 {
-                    ClockContainer.Children.RemoveAt(index);
-                    ClockContainer.Children.Insert(index + 1, clockControl);
-                    //RearrangeClocks();
+                    int index = ClockContainer.Children.IndexOf(viewbox);
+                    if (index < ClockContainer.Children.Count - 1)
+                    {
+                        ClockContainer.Children.RemoveAt(index);
+                        ClockContainer.Children.Insert(index + 1, viewbox);
+                    }
                 }
             }
         }
 
-        
+
+
 
         private void AddClockButton_Click(object sender, RoutedEventArgs e)
         {
