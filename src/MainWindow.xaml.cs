@@ -19,6 +19,43 @@ namespace GlobalClockApp
         {
             InitializeComponent();
 
+            // Default fallback values
+            double defaultWidth = 800;
+            double defaultHeight = 600;
+            double defaultTop = 100;
+            double defaultLeft = 100;
+
+            // Check if saved values are valid
+            bool validSize = Properties.Settings.Default.WindowWidth > 100 &&
+                             Properties.Settings.Default.WindowHeight > 100;
+
+            bool validPosition = Properties.Settings.Default.WindowTop >= 0 &&
+                                 Properties.Settings.Default.WindowTop < SystemParameters.VirtualScreenHeight &&
+                                 Properties.Settings.Default.WindowLeft >= 0 &&
+                                 Properties.Settings.Default.WindowLeft < SystemParameters.VirtualScreenWidth;
+
+            if (validSize)
+            {
+                this.Width = Properties.Settings.Default.WindowWidth;
+                this.Height = Properties.Settings.Default.WindowHeight;
+            }
+            else
+            {
+                this.Width = defaultWidth;
+                this.Height = defaultHeight;
+            }
+
+            if (validPosition)
+            {
+                this.Top = Properties.Settings.Default.WindowTop;
+                this.Left = Properties.Settings.Default.WindowLeft;
+            }
+            else
+            {
+                this.Top = defaultTop;
+                this.Left = defaultLeft;
+            }
+
             string lastFilePath = Properties.Settings.Default.LastUsedFilePath;
             if (!string.IsNullOrWhiteSpace(lastFilePath) && File.Exists(lastFilePath))
             {
@@ -29,6 +66,8 @@ namespace GlobalClockApp
                 LoadDefaultClocks();
             }
         }
+
+
 
         private void LoadDefaultClocks()
         {
@@ -46,22 +85,33 @@ namespace GlobalClockApp
                 TimeColor = Colors.Red,
                 LabelColor = Colors.SteelBlue,
                 Is24HourFormat = is24HourFormat,
-                Margin = new Thickness(10) // Add margin for spacing
+                Margin = new Thickness(5)
             };
+
             clockControl.RemoveRequested += ClockControl_RemoveRequested;
             clockControl.MoveUpRequested += ClockControl_MoveUpRequested;
             clockControl.MoveDownRequested += ClockControl_MoveDownRequested;
             clockControl.EditRequested += ClockControl_EditRequested;
-            ClockContainer.Children.Add(clockControl);
-            RearrangeClocks();
+
+            // ✅ Wrap clock in a Viewbox for scaling
+            var viewbox = new Viewbox
+            {
+                Stretch = Stretch.Uniform,
+                Child = clockControl,
+                Width = 350, // You can tweak this
+                Height = 180 // Or scale dynamically later
+            };
+
+            ClockContainer.Children.Add(viewbox);
         }
+
 
         private void ClockControl_RemoveRequested(object sender, EventArgs e)
         {
             if (sender is ClockControl clockControl)
             {
                 ClockContainer.Children.Remove(clockControl);
-                RearrangeClocks();
+                //RearrangeClocks();
             }
         }
 
@@ -74,7 +124,7 @@ namespace GlobalClockApp
                 {
                     ClockContainer.Children.RemoveAt(index);
                     ClockContainer.Children.Insert(index - 1, clockControl);
-                    RearrangeClocks();
+                    //RearrangeClocks();
                 }
             }
         }
@@ -88,38 +138,12 @@ namespace GlobalClockApp
                 {
                     ClockContainer.Children.RemoveAt(index);
                     ClockContainer.Children.Insert(index + 1, clockControl);
-                    RearrangeClocks();
+                    //RearrangeClocks();
                 }
             }
         }
 
-        private void RearrangeClocks()
-        {
-            int columns = 5;
-            int rows = (ClockContainer.Children.Count + columns - 1) / columns;
-
-            ClockContainer.RowDefinitions.Clear();
-            ClockContainer.ColumnDefinitions.Clear();
-
-            for (int r = 0; r < rows; r++)
-            {
-                ClockContainer.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            }
-            for (int c = 0; c < columns; c++)
-            {
-                ClockContainer.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            }
-
-            for (int i = 0; i < ClockContainer.Children.Count; i++)
-            {
-                var element = ClockContainer.Children[i] as UIElement;
-                if (element != null)
-                {
-                    Grid.SetRow(element, i / columns);
-                    Grid.SetColumn(element, i % columns);
-                }
-            }
-        }
+        
 
         private void AddClockButton_Click(object sender, RoutedEventArgs e)
         {
@@ -144,9 +168,12 @@ namespace GlobalClockApp
 
         private void UpdateAllClocks()
         {
-            foreach (ClockControl clockControl in ClockContainer.Children)
+            foreach (var child in ClockContainer.Children)
             {
-                clockControl.Is24HourFormat = is24HourFormat;
+                if (child is Viewbox viewbox && viewbox.Child is ClockControl clockControl)
+                {
+                    clockControl.Is24HourFormat = is24HourFormat;
+                }
             }
         }
 
@@ -161,16 +188,19 @@ namespace GlobalClockApp
             if (saveFileDialog.ShowDialog() == true)
             {
                 var clocks = new List<ClockData>();
-                foreach (ClockControl clockControl in ClockContainer.Children)
+                foreach (var child in ClockContainer.Children)
                 {
-                    var clockData = new ClockData
+                    if (child is Viewbox viewbox && viewbox.Child is ClockControl clockControl)
                     {
-                        Location = clockControl.Location,
-                        Labels = clockControl.Labels.ToArray(),
-                        TimeZoneId = clockControl.TimeZone.Id,
-                        Is24HourFormat = clockControl.Is24HourFormat
-                    };
-                    clocks.Add(clockData);
+                        var clockData = new ClockData
+                        {
+                            Location = clockControl.Location,
+                            Labels = clockControl.Labels.ToArray(),
+                            TimeZoneId = clockControl.TimeZone.Id,
+                            Is24HourFormat = clockControl.Is24HourFormat
+                        };
+                        clocks.Add(clockData);
+                    }
                 }
                 var json = JsonConvert.SerializeObject(clocks, Formatting.Indented);
                 File.WriteAllText(saveFileDialog.FileName, json);
@@ -257,5 +287,18 @@ namespace GlobalClockApp
                 }
             }
         }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnClosing(e);
+
+            // Save current window size and position
+            Properties.Settings.Default.WindowWidth = this.Width;
+            Properties.Settings.Default.WindowHeight = this.Height;
+            Properties.Settings.Default.WindowTop = this.Top;
+            Properties.Settings.Default.WindowLeft = this.Left;
+            Properties.Settings.Default.Save();
+        }
+
     }
 }

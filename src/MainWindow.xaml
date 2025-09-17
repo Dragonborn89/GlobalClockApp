@@ -42,8 +42,8 @@
                 <MenuItem Header="24-Hour Format" IsCheckable="True" Checked="TimeFormatToggle_Checked" Unchecked="TimeFormatToggle_Unchecked"/>
             </MenuItem>
         </Menu>
-        <Grid x:Name="ClockContainer">
-            <!-- Clocks will be added here dynamically -->
-        </Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="ClockContainer" Margin="10" />
+        </ScrollViewer>
     </DockPanel>
 </Window>
