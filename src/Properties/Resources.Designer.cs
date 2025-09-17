@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SituationRoomClock.Properties {
+namespace GlobalClockApp.Properties {
     using System;
     
     

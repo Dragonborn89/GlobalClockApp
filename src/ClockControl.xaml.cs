@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace SituationRoomClock
+namespace GlobalClockApp
 {
     public partial class ClockControl : UserControl
     {

@@ -7,8 +7,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Newtonsoft.Json;
 using System.Linq;
+using GlobalClockApp.Properties;
 
-namespace SituationRoomClock
+namespace GlobalClockApp
 {
     public partial class MainWindow : Window
     {
@@ -17,7 +18,16 @@ namespace SituationRoomClock
         public MainWindow()
         {
             InitializeComponent();
-            LoadDefaultClocks();
+
+            string lastFilePath = Properties.Settings.Default.LastUsedFilePath;
+            if (!string.IsNullOrWhiteSpace(lastFilePath) && File.Exists(lastFilePath))
+            {
+                LoadClocksFromFile(lastFilePath);
+            }
+            else
+            {
+                LoadDefaultClocks();
+            }
         }
 
         private void LoadDefaultClocks()
@@ -164,6 +174,10 @@ namespace SituationRoomClock
                 }
                 var json = JsonConvert.SerializeObject(clocks, Formatting.Indented);
                 File.WriteAllText(saveFileDialog.FileName, json);
+
+                // 🔹 Save the file path to settings
+                Properties.Settings.Default.LastUsedFilePath = saveFileDialog.FileName;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -186,8 +200,40 @@ namespace SituationRoomClock
                     var timeZone = TimeZoneInfo.FindSystemTimeZoneById(clockData.TimeZoneId);
                     AddClock(clockData.Location, clockData.Labels.ToList(), timeZone);
                 }
+
+                // ✅ Save the file path so it loads next time
+                Properties.Settings.Default.LastUsedFilePath = openFileDialog.FileName;
+                Properties.Settings.Default.Save();
             }
         }
+
+
+        private void LoadClocksFromFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    var json = File.ReadAllText(filePath);
+                    var clocks = JsonConvert.DeserializeObject<List<ClockData>>(json);
+
+                    ClockContainer.Children.Clear();
+                    foreach (var clockData in clocks)
+                    {
+                        var timeZone = TimeZoneInfo.FindSystemTimeZoneById(clockData.TimeZoneId);
+                        AddClock(clockData.Location, clockData.Labels.ToList(), timeZone);
+                    }
+
+                    is24HourFormat = clocks.FirstOrDefault()?.Is24HourFormat ?? false;
+                    UpdateAllClocks();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to load saved clocks:\n\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
 
         public class ClockData
         {
