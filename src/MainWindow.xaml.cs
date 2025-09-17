@@ -18,7 +18,7 @@ namespace GlobalClockApp
         public MainWindow()
         {
             InitializeComponent();
-
+            Loaded += (s, e) => GlassHelper.EnableGlass(this);
             // Default fallback values
             double defaultWidth = 800;
             double defaultHeight = 600;
@@ -55,6 +55,9 @@ namespace GlobalClockApp
                 this.Top = defaultTop;
                 this.Left = defaultLeft;
             }
+
+            this.Topmost = Properties.Settings.Default.AlwaysOnTop;
+            AlwaysOnTopMenu.IsChecked = this.Topmost;
 
             string lastFilePath = Properties.Settings.Default.LastUsedFilePath;
             if (!string.IsNullOrWhiteSpace(lastFilePath) && File.Exists(lastFilePath))
@@ -184,6 +187,19 @@ namespace GlobalClockApp
             is24HourFormat = false;
             UpdateAllClocks();
         }
+
+        // Always On Top toggles
+        private void AlwaysOnTopMenu_Checked(object sender, RoutedEventArgs e)
+        {
+            this.Topmost = true;
+        }
+
+        private void AlwaysOnTopMenu_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.Topmost = false;
+        }
+
+        
 
         private void UpdateAllClocks()
         {
@@ -316,6 +332,7 @@ namespace GlobalClockApp
             Properties.Settings.Default.WindowHeight = this.Height;
             Properties.Settings.Default.WindowTop = this.Top;
             Properties.Settings.Default.WindowLeft = this.Left;
+            Properties.Settings.Default.AlwaysOnTop = this.Topmost;
             Properties.Settings.Default.Save();
         }
 

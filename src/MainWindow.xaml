@@ -40,6 +40,12 @@
                 <MenuItem Header="Save Clocks" Click="SaveClocksButton_Click"/>
                 <MenuItem Header="Load Clocks" Click="LoadClocksButton_Click"/>
                 <MenuItem Header="24-Hour Format" IsCheckable="True" Checked="TimeFormatToggle_Checked" Unchecked="TimeFormatToggle_Unchecked"/>
+                <MenuItem Header="Always On Top" IsCheckable="True" 
+                  x:Name="AlwaysOnTopMenu" 
+                  Checked="AlwaysOnTopMenu_Checked" 
+                  Unchecked="AlwaysOnTopMenu_Unchecked"/>
+
+                
             </MenuItem>
         </Menu>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
