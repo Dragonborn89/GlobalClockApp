@@ -1,0 +1,23 @@
+{
+  "Name": "Neon Night",
+  "WindowBackground": "#FF0B0B1A",
+  "MenuBackground": "#FF151530",
+  "MenuForeground": "#FFFF1F8A",
+
+  "TimeText": "#FFFF5AF9",
+  "TimeBackground": "#FF1F1F40",
+
+  "LabelText": "#FF8AFFEF",
+  "LabelBackground": "#FF26264D",
+
+  "InfoText": "#FF5AF9FF",
+  "InfoBackground": "#FF303060",
+
+  "ButtonForeground": "#FFFFFFFF",
+  "ButtonBackground": "#FF3A3A70",
+
+  "Accent": "#FFFF1F8A",
+
+  "TimeFontFamily": "pack://application:,,,/DS-DIGI.TTF#DS-Digital",
+  "UiFontFamily": "Segoe UI"
+}

@@ -106,5 +106,17 @@ namespace GlobalClockApp.Properties {
                 this["Transparency"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastUsedTheme {
+            get {
+                return ((string)(this["LastUsedTheme"]));
+            }
+            set {
+                this["LastUsedTheme"] = value;
+            }
+        }
     }
 }

@@ -4,6 +4,26 @@
              xmlns:local="clr-namespace:GlobalClockApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Default theme values (same as ThemeData defaults) -->
+        <SolidColorBrush x:Key="Brush.WindowBackground" Color="#FF1A1A1A"/>
+        <SolidColorBrush x:Key="Brush.MenuBackground"   Color="Gray"/>
+        <SolidColorBrush x:Key="Brush.MenuForeground"   Color="Black"/>
+
+        <SolidColorBrush x:Key="Brush.TimeText"         Color="#FFD4EDFF"/>
+        <SolidColorBrush x:Key="Brush.TimeBackground"   Color="#FF1B2230"/>
+
+        <SolidColorBrush x:Key="Brush.LabelText"        Color="#FFC6D4E2"/>
+        <SolidColorBrush x:Key="Brush.LabelBackground"  Color="#FF212B36"/>
+
+        <SolidColorBrush x:Key="Brush.InfoText"         Color="#FFE4E8EF"/>
+        <SolidColorBrush x:Key="Brush.InfoBackground"   Color="#FF394355"/>
+
+        <SolidColorBrush x:Key="Brush.ButtonForeground" Color="#FFD8E8FF"/>
+        <SolidColorBrush x:Key="Brush.ButtonBackground" Color="#FF4B5568"/>
+
+        <SolidColorBrush x:Key="Brush.Accent"           Color="#FF5AA9FF"/>
+
+        <FontFamily x:Key="Font.Time">pack://application:,,,/DS-DIGI.TTF#DS-Digital</FontFamily>
+        <FontFamily x:Key="Font.UI">Arial</FontFamily>
     </Application.Resources>
 </Application>

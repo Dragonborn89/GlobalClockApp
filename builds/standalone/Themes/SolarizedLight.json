@@ -1,0 +1,23 @@
+{
+  "Name": "Solarized Light",
+  "WindowBackground": "#FFFDF6E3",
+  "MenuBackground": "#FFEEE8D5",
+  "MenuForeground": "#FF586E75",
+
+  "TimeText": "#FF073642",
+  "TimeBackground": "#FFEEE8D5",
+
+  "LabelText": "#FF657B83",
+  "LabelBackground": "#FFEEE8D5",
+
+  "InfoText": "#FF586E75",
+  "InfoBackground": "#FFEEE8D5",
+
+  "ButtonForeground": "#FF073642",
+  "ButtonBackground": "#FF93A1A1",
+
+  "Accent": "#FF268BD2",
+
+  "TimeFontFamily": "Consolas",
+  "UiFontFamily": "Segoe UI"
+}

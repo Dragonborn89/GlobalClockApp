@@ -5,12 +5,9 @@
     <UserControl.Resources>
         <!-- TIME -->
         <Style x:Key="DigitalTextStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="pack://application:,,,/DS-DIGI.TTF#DS-Digital"/>
-            <Setter Property="Foreground" Value="#D4EDFF"/>
-            <!-- brighter time text -->
+            <Setter Property="FontFamily" Value="{DynamicResource Font.Time}"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.TimeText}"/>
             <Setter Property="FontSize" Value="36"/>
-            <Setter Property="Background" Value="#1B2230"/>
-            <!-- deep indigo -->
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="5"/>
@@ -19,12 +16,10 @@
 
         <!-- LABELS (city/region) -->
         <Style x:Key="LabelTextStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Arial"/>
-            <Setter Property="Foreground" Value="#C6D4E2"/>
-            <!-- light blue-gray -->
+            <Setter Property="FontFamily" Value="{DynamicResource Font.UI}"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.LabelText}"/>
+            <Setter Property="Background" Value="{DynamicResource Brush.LabelBackground}"/>
             <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Background" Value="#212B36"/>
-            <!-- dark blue-gray -->
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="2"/>
@@ -33,12 +28,10 @@
 
         <!-- UTC / DATE / DST (distinct row) -->
         <Style x:Key="InfoTextStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Arial"/>
-            <Setter Property="Foreground" Value="#E4E8EF"/>
-            <!-- light neutral -->
+            <Setter Property="FontFamily" Value="{DynamicResource Font.UI}"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.InfoText}"/>
+            <Setter Property="Background" Value="{DynamicResource Brush.InfoBackground}"/>
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Background" Value="#394355"/>
-            <!-- slate (lighter than time, darker than labels) -->
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="2"/>
@@ -47,14 +40,14 @@
 
         <!-- BUTTONS -->
         <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Foreground" Value="#D8E8FF"/>
-            <Setter Property="Background" Value="#4B5568"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.ButtonForeground}"/>
+            <Setter Property="Background" Value="{DynamicResource Brush.ButtonBackground}"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
     </UserControl.Resources>
 
     <!-- APP BACKGROUND -->
-    <Grid Background="#0F1216">
+    <Grid Background="{DynamicResource Brush.WindowBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -68,23 +61,23 @@
         </Grid.ColumnDefinitions>
 
         <!-- TIME PANEL -->
-        <Border Grid.Row="0" Grid.ColumnSpan="3" Background="#1B2230" Width="340" Margin="5">
+        <Border Grid.Row="0" Grid.ColumnSpan="3" Background="{DynamicResource Brush.TimeBackground}" Width="340" Margin="5">
             <TextBlock x:Name="TimeTextBlock" Style="{StaticResource DigitalTextStyle}"/>
         </Border>
 
-        <!-- UTC / DATE / DST ROW (uses InfoTextStyle so inner bg matches outer) -->
-        <Border Grid.Row="1" Grid.Column="0" Background="#394355" Width="110" Margin="2">
+        <!-- UTC / DATE / DST ROW -->
+        <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource Brush.InfoBackground}" Width="110" Margin="2">
             <TextBlock x:Name="UTCTextBlock" Style="{StaticResource InfoTextStyle}" Width="110"/>
         </Border>
-        <Border Grid.Row="1" Grid.Column="1" Background="#394355" Width="110" Margin="2">
+        <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource Brush.InfoBackground}" Width="110" Margin="2">
             <TextBlock x:Name="DateTextBlock" Style="{StaticResource InfoTextStyle}" Width="110"/>
         </Border>
-        <Border Grid.Row="1" Grid.Column="2" Background="#394355" Width="110" Margin="2">
+        <Border Grid.Row="1" Grid.Column="2" Background="{DynamicResource Brush.InfoBackground}" Width="110" Margin="2">
             <TextBlock x:Name="DSTTextBlock" Style="{StaticResource InfoTextStyle}" Width="110"/>
         </Border>
 
         <!-- LABELS PANEL -->
-        <Border Grid.Row="2" Grid.ColumnSpan="3" Background="#212B36" Width="340" Margin="2">
+        <Border Grid.Row="2" Grid.ColumnSpan="3" Background="{DynamicResource Brush.LabelBackground}" Width="340" Margin="2">
             <StackPanel x:Name="LabelsPanel" Width="340" Margin="0">
                 <!-- Labels will be added here dynamically -->
             </StackPanel>

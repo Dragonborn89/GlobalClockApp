@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GlobalClockApp"
         mc:Ignorable="d"
         Title="Global Clock App" Height="450" Width="800"
-        Background="#1A1A1A">
+        Background="{DynamicResource Brush.WindowBackground}">
     <Window.Resources>
         <Style x:Key="DarkCheckBoxStyle" TargetType="CheckBox">
             <Setter Property="Foreground" Value="White"/>
@@ -16,8 +16,15 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
                         <StackPanel Orientation="Horizontal">
-                            <Border x:Name="border" Width="16" Height="16" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
-                                <Path x:Name="checkMark" Data="M 0 0 L 12 12 M 12 0 L 0 12" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" Visibility="Collapsed"/>
+                            <Border x:Name="border" Width="16" Height="16" 
+                                    Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="1">
+                                <Path x:Name="checkMark" 
+                                      Data="M 0 0 L 12 12 M 12 0 L 0 12" 
+                                      Stroke="{TemplateBinding Foreground}" 
+                                      StrokeThickness="2" 
+                                      Visibility="Collapsed"/>
                             </Border>
                             <ContentPresenter Margin="5,0,0,0"/>
                         </StackPanel>
@@ -32,22 +39,33 @@
         </Style>
     </Window.Resources>
 
-
     <DockPanel>
-        <Menu DockPanel.Dock="Top" Background="Gray" Foreground="Black">
+        <Menu DockPanel.Dock="Top" 
+              Background="{DynamicResource Brush.MenuBackground}" 
+              Foreground="{DynamicResource Brush.MenuForeground}">
             <MenuItem Header="Options">
                 <MenuItem Header="Add Clock" Click="AddClockButton_Click"/>
                 <MenuItem Header="Save Clocks" Click="SaveClocksButton_Click"/>
                 <MenuItem Header="Load Clocks" Click="LoadClocksButton_Click"/>
-                <MenuItem Header="24-Hour Format" IsCheckable="True" Checked="TimeFormatToggle_Checked" Unchecked="TimeFormatToggle_Unchecked"/>
-                <MenuItem Header="Always On Top" IsCheckable="True" 
-                  x:Name="AlwaysOnTopMenu" 
-                  Checked="AlwaysOnTopMenu_Checked" 
-                  Unchecked="AlwaysOnTopMenu_Unchecked"/>
-
-                
+                <MenuItem Header="24-Hour Format" 
+                          IsCheckable="True" 
+                          Checked="TimeFormatToggle_Checked" 
+                          Unchecked="TimeFormatToggle_Unchecked"/>
+                <MenuItem Header="Always On Top" 
+                          IsCheckable="True" 
+                          x:Name="AlwaysOnTopMenu" 
+                          Checked="AlwaysOnTopMenu_Checked" 
+                          Unchecked="AlwaysOnTopMenu_Unchecked"/>
             </MenuItem>
+            <MenuItem Header="Themes">
+                <MenuItem Header="Load Theme" Click="LoadTheme_Click"/>
+                <MenuItem Header="Save Theme" Click="SaveTheme_Click"/>
+                <Separator/>
+                <MenuItem Header="Theme Editor..." Click="OpenThemeEditor_Click"/>
+            </MenuItem>
+
         </Menu>
+
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <WrapPanel x:Name="ClockContainer" Margin="10" />
         </ScrollViewer>

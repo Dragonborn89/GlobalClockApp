@@ -1,0 +1,23 @@
+{
+  "Name": "Dark",
+  "WindowBackground": "#FF1A1A1A",
+  "MenuBackground": "#FF2B2B2B",
+  "MenuForeground": "#FF5AA9FF",
+
+  "TimeText": "#FFE0E0E0",
+  "TimeBackground": "#1B2230",
+
+  "LabelText": "#FFBBBBBB",
+  "LabelBackground": "#FF2D2D2D",
+
+  "InfoText": "#FFCCCCCC",
+  "InfoBackground": "#FF333333",
+
+  "ButtonForeground": "#FFFFFFFF",
+  "ButtonBackground": "#FF444444",
+
+  "Accent": "#FF5AA9FF",
+
+  "TimeFontFamily": "pack://application:,,,/DS-DIGI.TTF#DS-Digital",
+  "UiFontFamily": "Segoe UI"
+}

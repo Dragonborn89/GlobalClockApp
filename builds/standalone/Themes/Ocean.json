@@ -1,0 +1,23 @@
+{
+  "Name": "Ocean",
+  "WindowBackground": "#FF0E1520",
+  "MenuBackground": "#FF102739",
+  "MenuForeground": "#FF4FB3FF",
+
+  "TimeText": "#FFE6FBFF",
+  "TimeBackground": "#FF0B2233",
+
+  "LabelText": "#FFCCEEFF",
+  "LabelBackground": "#FF153248",
+
+  "InfoText": "#FFD9EAF7",
+  "InfoBackground": "#FF1C3B54",
+
+  "ButtonForeground": "#FFE6FBFF",
+  "ButtonBackground": "#FF214761",
+
+  "Accent": "#FF4FB3FF",
+
+  "TimeFontFamily": "Segoe UI",
+  "UiFontFamily": "Segoe UI"
+}

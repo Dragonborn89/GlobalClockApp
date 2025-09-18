@@ -1,0 +1,23 @@
+{
+  "Name": "Sunset Glow",
+  "WindowBackground": "#FF2C1A2F",
+  "MenuBackground": "#FF3E243F",
+  "MenuForeground": "#FFFFAA77",
+
+  "TimeText": "#FFFFCC88",
+  "TimeBackground": "#FF4A2E4D",
+
+  "LabelText": "#FFFFAA77",
+  "LabelBackground": "#FF5C3555",
+
+  "InfoText": "#FFFFDDAA",
+  "InfoBackground": "#FF6B3F60",
+
+  "ButtonForeground": "#FFFFEEDD",
+  "ButtonBackground": "#FF7A496A",
+
+  "Accent": "#FFFF6688",
+
+  "TimeFontFamily": "Arial",
+  "UiFontFamily": "Segoe UI"
+}

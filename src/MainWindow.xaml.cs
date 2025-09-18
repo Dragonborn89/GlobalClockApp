@@ -19,6 +19,23 @@ namespace GlobalClockApp
         {
             InitializeComponent();
             Loaded += (s, e) => GlassHelper.EnableGlass(this);
+
+            // Apply last-used theme if present
+            var lastThemePath = Properties.Settings.Default.LastUsedTheme;
+            if (!string.IsNullOrWhiteSpace(lastThemePath) && File.Exists(lastThemePath))
+            {
+                try
+                {
+                    var t = ThemeManager.Load(lastThemePath);
+                    ThemeManager.Apply(t);
+                    RefreshThemeBindings(); // <— refresh styles/fonts
+                }
+                catch
+                {
+                    // ignore & fall back to defaults in App.xaml
+                }
+            }
+
             // Default fallback values
             double defaultWidth = 800;
             double defaultHeight = 600;
@@ -69,6 +86,7 @@ namespace GlobalClockApp
                 LoadDefaultClocks();
             }
         }
+
 
 
 
@@ -322,6 +340,91 @@ namespace GlobalClockApp
                 }
             }
         }
+
+        private void LoadTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "Theme Files (*.json)|*.json|All Files (*.*)|*.*",
+                DefaultExt = "json",
+                InitialDirectory = ThemeManager.ThemesFolder   // 🔹 force relative folder
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var t = ThemeManager.Load(dialog.FileName);
+                    ThemeManager.Apply(t);
+                    RefreshThemeBindings();
+
+                    Properties.Settings.Default.LastUsedTheme = dialog.FileName;
+                    Properties.Settings.Default.Save();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to load theme:\n\n" + ex.Message,
+                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Re-applies styles so DynamicResource fonts/colors update after ThemeManager.Apply
+        /// </summary>
+        public void RefreshThemeBindings()
+        {
+            foreach (var vb in ClockContainer.Children.OfType<Viewbox>())
+            {
+                if (vb.Child is ClockControl cc)
+                {
+                    var style = (Style)cc.FindResource("DigitalTextStyle");
+                    cc.TimeTextBlock.Style = null;   // clear to force refresh
+                    cc.TimeTextBlock.Style = style;  // re-apply
+                    cc.UpdateLayout();
+                }
+            }
+        }
+
+
+
+        private void SaveTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Theme Files (*.json)|*.json|All Files (*.*)|*.*",
+                DefaultExt = "json",
+                FileName = "MyTheme.json",
+                InitialDirectory = ThemeManager.ThemesFolder   // 🔹 force relative folder
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var snapshot = ThemeManager.FromCurrent("My Saved Theme");
+                    ThemeManager.Save(snapshot, dialog.FileName);
+
+                    Properties.Settings.Default.LastUsedTheme = dialog.FileName;
+                    Properties.Settings.Default.Save();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to save theme:\n\n" + ex.Message,
+                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void OpenThemeEditor_Click(object sender, RoutedEventArgs e)
+        {
+            var editor = new ThemeEditorWindow();
+            editor.Owner = this; // makes it modal relative to MainWindow
+            editor.ShowDialog();
+        }
+
+
+
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
